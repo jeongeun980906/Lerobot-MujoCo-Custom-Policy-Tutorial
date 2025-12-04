@@ -1,0 +1,38 @@
+{
+    "language_instruction": "put block on the top drawer and close it",
+    "xml_file": "./asset/scene_table_y2.xml",
+    "control_mode": "delta_eef_pose",
+    "conditions": 
+        {"objects": 
+            [
+                
+                {"names": ["wooden_cabinet","top"], "relation": "close"},
+                {"names": ["top_site_box_1", "top_region_wooden_cabinet"], "relation": "on"}
+            ]
+         ,
+        "gripper": 
+            {
+                "state": "open",
+                "pose": ["behind", "top_site_box_1"]
+            }
+        },
+    "init_pose": {
+        "robot": {
+            "position": [0.0, 0.0, 0.8],
+            "rotation": [0.0, 0.0, 0.0]
+        },
+        "receptacles": {
+            "wooden_cabinet": 
+            {
+                "y_range": [0.3, 0.3],
+                "x_range": [0.35, 0.35],
+                "z": 0.82,
+               "init_rot" : ["choice", [0,0]],
+               "init_state": ["top", "open"] 
+            }
+        },
+        "objects": {
+            
+        }
+    }
+}

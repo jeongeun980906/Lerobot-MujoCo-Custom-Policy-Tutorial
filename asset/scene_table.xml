@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<mujoco model="Scanned Objects">
+    <size memory="500M"/>
+    <compiler angle="radian" autolimits="true"/>
+    <option integrator="RK4" noslip_iterations="20"/>
+    <default>
+        <joint armature="0.1" damping="0.1"/>
+        <default class="visual_only">
+            <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+        </default>
+        <default class="no_visual_collision">
+            <geom type="capsule" solimp=".9 .95 .01" solref=".02 1" group="3"/>
+        </default>
+        <default class="visual_collision">
+            <geom type="mesh" solimp=".9 .95 .01" solref=".02 1" group="2"/>
+        </default>
+    </default>
+    <include file="./tabletop/object/floor_new.xml"/>
+    <include file="./tabletop/object/object_table_3.xml"/>
+    <include file="./robotis_omy/omy2.xml"/>
+</mujoco>

@@ -1,0 +1,14 @@
+<mujoco model="cylinder_2">
+    <worldbody>
+        <body name="body_obj_cylinder_2" pos="0 0 0">
+        <inertial pos="0 0 0" mass="1" diaginertia="0.01 0.01 0.01"/>
+            <joint type="free"/>
+            <geom type="cylinder" size="0.03 0.05" name="cylinder_2_geom"
+                density="500" friction="1 0.005 0.0001" rgba="0.3 0.3 0.3 1"/>
+            
+            <site name="top_site_cylinder_2" pos="0 0 0.05" size="0.01" rgba="1 0 0 0"/>
+            <site name="bottom_site_cylinder_2" pos="0 0 -0.05" size="0.01" rgba="1 0 0 0"/>
+            <site name="horizontal_radius_site_cylinder_2" pos="0.03 0 0" size="0.01" rgba="1 0 0 0"/>
+        </body>
+    </worldbody>
+</mujoco>

@@ -1,0 +1,13 @@
+<mujoco model="box_1">
+    <worldbody>
+        <body name="body_obj_box_1" pos="0 0 0">
+        <inertial pos="0 0 0" mass="1" diaginertia="0.01 0.01 0.01"/>
+            <joint type="free"/>
+            <geom type="box" size="0.025 0.025 0.025" name="box_1_geom"
+                density="500" friction="1 0.005 0.0001" rgba="0.8 0.1 0.1 1"/>
+            <site name="top_site_box_1" pos="0 0 0.025" size="0.025 0.025 0.025" rgba="1 0 0 0"/>
+            <site name="bottom_site_box_1" pos="0 0 -0.025" size="0.025 0.025 0.025" rgba="1 0 0 0"/>
+            <site name="horizontal_radius_site_box_1" pos="0.025 0 0" size="0.01 0.01 0.01" rgba="1 0 0 0"/>
+        </body>
+    </worldbody>
+</mujoco>

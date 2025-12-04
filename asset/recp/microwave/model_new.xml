@@ -1,0 +1,73 @@
+<mujoco model="microwave">
+
+    <compiler inertiafromgeom="auto" inertiagrouprange="4 4" angle="radian"/>
+    <asset>
+        <mesh file="micro.stl" name="micro" scale="0.6 0.5 0.65"/>
+        <mesh file="microdoor.stl" name="microdoor" scale="0.6 0.5 0.65"/>
+        <mesh file="microbutton.stl" name="microbutton" scale="0.6 0.5 0.65"/>
+        <mesh file="microfeet.stl" name="microfeet" scale="0.6 0.5 0.65"/>
+        <mesh file="microhandle.stl" name="microhandle" scale="0.6 0.5 0.65"/>
+        <mesh file="microwindow.stl" name="microwindow" scale="0.6 0.5 0.65"/>
+
+        <texture name="T_micro_metal" type="cube" height="1" width="1" file="metal1.png"/>
+
+        <material name="micro_metal" rgba="1 1 1 1" texture="T_micro_metal" texrepeat="3 3" reflectance="1" shininess="1" texuniform="false"/>
+        <material name="micro_black" rgba=".2 .2 .2 1" reflectance="1" shininess="1"/>
+        <material name="micro_window" rgba=".4 .4 .4 .85" reflectance="1" shininess="1"/>
+        <material name="micro_collision_blue" rgba="0.3 0.3 1.0 0.0" shininess="0" specular="0"/>
+    </asset>
+
+    <default>
+        <default class="microwave">
+            <geom conaffinity="0" contype="0" group="1" material="micro_black" type="mesh"/>
+        </default>
+        
+        <default class="micro_collision">
+            <geom group="1" margin="0.001" material="micro_collision_blue" solimp=".8 .9 .01" solref=".02 1"/>
+        </default>
+    </default>
+
+    <worldbody>
+    <body name="body_obj_microwave">
+        <!-- <inertial pos="0 0 0" mass="500.0" diaginertia="100 100 100"/>
+    		<freejoint/>  -->
+        <!-- <body name='microwave_base_holder' pos="0 0 0">
+            <inertial pos="0 0 0" mass="100.0" diaginertia="100 100 100"/>
+            <geom friction="0.95 0.3 0.1" size = "0.15 0.1 0.05" type="box" pos="0 0 0" mass="100" material="micro_metal"/> -->
+        <body name="mircowave_base" pos="0 0 0.0">
+            <inertial pos="0 0 0" mass="100.0" diaginertia="100 100 100"/>
+            <geom friction="0.95 0.3 0.1" class="microwave" mesh="micro"/>
+            <geom friction="0.95 0.3 0.1" class="microwave" material="micro_metal" mesh="microbutton"/>
+            <geom friction="0.95 0.3 0.1" class="microwave" material="micro_metal" mesh="microfeet"/>
+            <geom friction="0.95 0.3 0.1" class="micro_collision" pos="-0.188 0.0115 0.12155" size="0.0145 0.06955 0.12155" type="box" mass="100" rgba="1 0 0 0"/>
+            <geom friction="0.95 0.3 0.1" class="micro_collision" pos="0.118 0.0115 0.12155" size="0.0545 0.06955 0.12155" type="box" mass="100" rgba="1 0 0 0"/>
+            <geom friction="0.95 0.3 0.1" class="micro_collision" pos="-0.0405 0.0955 0.12155" size="0.1335 0.0105 0.12155" type="box" mass="100" rgba="1 0 0 0"/>
+            <geom friction="0.95 0.3 0.1" class="micro_collision" pos="-0.04 0.01 0.235" size="0.1335 0.0645 0.0095" type="box" mass="100" rgba="0 1 0 0"/>
+            <geom friction="0.95 0.3 0.1" class="micro_collision" pos="-0.04 0.01 0.02" size="0.1335 0.064 0.012" type="box" mass="100" rgba="1 0 0 0"/>
+            <geom friction="0.95 0.3 0.1" class="micro_collision" pos="0.15 -0.0985 0.12155" size="0.0425 0.012 0.12155" type="box" mass="100" rgba="1 0 0 0"/>
+            <body name="body_obj_microwave_door" pos="-0.1725 -0.068 0.096">
+                <joint type="hinge" axis="0 0 1" limited="true"
+		       name="microjoint" range="-2.094 0" damping="0.5"/>
+                <inertial pos="0 0 0" mass="0.5" diaginertia="0.005 0.005 0.005"/>
+                <geom friction="0.95 0.3 0.1" class="microwave" mesh="microdoor" pos="0.1725 0.068 -0.096"/>
+                <geom friction="0.95 0.3 0.1" class="microwave" material="micro_window" mesh="microwindow" pos="0.1725 0.068 -0.096"/>
+                <geom friction="0.95 0.3 0.1" class="microwave" material="micro_metal" pos="0.2375 -0.054 0" size="0.01 0.065" type="capsule"/>
+                <geom friction="0.95 0.3 0.1" class="microwave" material="micro_metal" euler="1.57 0 0" pos="0.2375 -0.0375 0.065" size="0.01 0.015" type="capsule"/>
+                <geom friction="0.95 0.3 0.1" class="microwave" material="micro_metal" euler="1.57 0 0" pos="0.2375 -0.0375 -0.065" size="0.01 0.015" type="capsule"/>
+
+                <geom friction="0.95 0.3 0.1" class="micro_collision" pos="0.2375 -0.054 0" size="0.01 0.065" type="capsule" mass="0.020"/>
+                <geom friction="0.95 0.3 0.1" class="micro_collision" euler="1.57 0 0" pos="0.2375 -0.0375 .065" size="0.01 0.015" type="capsule" mass="0.020"  />
+                <geom friction="0.95 0.3 0.1" class="micro_collision" euler="1.57 0 0" pos="0.2375 -0.0375 -.065" size="0.01 0.015" type="capsule" mass="0.020"/>
+                <geom friction="0.95 0.3 0.1" class="micro_collision" pos="0.1295 -0.013 0.03" size="0.1295 0.012 0.12" type="box" mass="0.20"/>
+            </body>
+        </body>
+        <site rgba="1 0 0 0" type="box" pos="-0.025 -0.05 -0.02" quat="1 0 0 0" size="0.0012 0.00835 0.005" name="heating_side"/>
+        <site rgba="1 0 0 0" type="box" pos="-0.05 -0.01 0.03" quat="1 0 0 0" size="0.12 0.1 0.2" name="microwave_heating_region"/>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.06" name="bottom_site" />
+      <site rgba="0 0 1 0" size="0.01 0.01 0.005" pos="0 0 0.06" name="top_site_microwave" />
+      <site rgba="0 0 0 0" size="0.005" pos="0.015 0.015 0" name="horizontal_radius_site" />
+        <!-- </body> -->
+    </body>
+    </worldbody>
+
+</mujoco>

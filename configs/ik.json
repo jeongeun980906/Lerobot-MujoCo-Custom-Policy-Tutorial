@@ -1,0 +1,25 @@
+{
+    "language_instruction": "",
+    "xml_file": "./asset/scene_table_y2.xml",
+    "control_mode": "joint",
+    "conditions": 
+        {"objects": 
+            [
+                
+            ]
+         ,
+        "gripper": 
+            {
+            }
+        },
+    "init_pose": {
+        "robot": {
+            "position": [0.0, 0.0, 0.8],
+            "rotation": [0.0, 0.0, 0.0]
+        },
+        "receptacles": {
+        },
+        "objects": {
+        }
+    }
+}
