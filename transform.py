@@ -56,10 +56,10 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--action_type', type=str, default='delta_joint',choices=['joint','delta_joint','eef_pose','delta_eef_pose'],)
-    parser.add_argument('--proprio_type', type=str, default='eef_pose', choices=['joint_pos','eef_pose'],)
-    parser.add_argument('--observation_type', type=str, default='image',choices=['image','objet_pose'],)
+    parser.add_argument('--action_type', type=str, default='joint',choices=['joint','delta_joint','eef_pose','delta_eef_pose'],)
+    parser.add_argument('--proprio_type', type=str, default='joint_pos', choices=['joint_pos','eef_pose'],)
+    parser.add_argument('--observation_type', type=str, default='object_pose',choices=['image','object_pose'],)
     parser.add_argument('--path', type=str, default='./dataset/transformed_data',)
-    parser.add_argument('--image_aug_num', type=int, default=5,)
+    parser.add_argument('--image_aug_num', type=int, default=0,)
     args = parser.parse_args()
     main(args)

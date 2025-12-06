@@ -20,6 +20,13 @@ SPACEBAR will change your gripper's state, and Z key will reset your environment
 ### 1.Visualize.ipynb
 
 It contains downloading dataset from huggingface and visualizing it.
+
+First, download the dataset
+```
+python download_data.py
+```
+
+
 ```python
 from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
 root = './dataset/demo_data'
@@ -49,6 +56,104 @@ You can just use the python script to do this as well.
 ```
 python transform.py --action_type delta_eef_pose --proprio_type eef_pose --observation_type image --image_aug_num 2
 ```
+
+### 3.train.ipynb
+Train simple MLP models with dataset.
+
+First, set up the configurations
+```python
+@PreTrainedConfig.register_subclass("omy_baseline")
+@dataclass
+class BaselineConfig(PreTrainedConfig):
+    # Input / output structure.
+    n_obs_steps: int = 1
+    chunk_size: int = 5
+    n_action_steps: int = 5
+
+    # Architecture.
+    backbone: str = 'mlp' # 'mlp' or 'transformer'
+    # Vision encoder
+    vision_backbone: str ="facebook/dinov3-vitb16-pretrain-lvd1689m" #"facebook/dinov2-base"
+    projection_dim : int = 128
+    freeze_backbone:  bool = True
+
+
+    # Num hidden layers
+    n_hidden_layers: int = 5
+    hidden_dim: int = 512   
+
+    ## For transformer-based architectures
+    n_heads: int = 4
+    dim_feedforward: int = 2048
+    feedforward_activation: str = "gelu"
+    dropout: float = 0.1
+    pre_norm: bool = True
+    n_encoder_layers: int = 6
+
+    # Training preset
+    optimizer_lr: float = 1e-3
+    optimizer_weight_decay: float = 1e-6
+
+    # Learning rate scheduler parameters 
+    lr_warmup_steps: int = 1000
+    total_training_steps: int = 500000
+
+# Policy Config
+cfg = BaselineConfig(
+    chunk_size=10,
+    n_action_steps=10,
+    backbone='mlp',
+    optimizer_lr= 5e-4,
+    n_hidden_layers=10,
+    hidden_dim=512,
+    # If you are using image features, uncomment the following line
+    vision_backbone='facebook/dinov3-vitb16-pretrain-lvd1689m',#"facebook/dinov2-base", **You need access to use this model** Use dinov2 if you don't have access
+    projection_dim=128,
+    freeze_backbone=True,
+
+)
+```
+Then you can train the baseline models!
+
+You can run this with the scripts as follows
+```
+python train.py
+  --dataset_path DATASET_PATH
+  --batch_size BATCH_SIZE
+  --num_epochs NUM_EPOCHS
+  --ckpt_path CKPT_PATH
+  --chunk_size CHUNK_SIZE
+  --n_action_steps N_ACTION_STEPS
+  --learning_rate LEARNING_RATE
+  --backbone BACKBONE
+  --n_hidden_layers N_HIDDEN_LAYERS
+  --hidden_dim HIDDEN_DIM
+  --vision_backbone {facebook/dinov3-vitb16-pretrain-lvd1689m,facebook/dinov2-base}
+  --projection_dim PROJECTION_DIM
+  --freeze_backbone FREEZE_BACKBONE
+```
+
+### 4.eval.ipynb
+
+This file contains evaluation of the trained models.
+
+<img src="./media/baseline.gif" width="480" height="360" controls></img>
+
+
+Action Representation: Target Joint Position, State Representation: Current Joint Position
+
+<table> Success rate
+    <tr>
+    <th>  MLP with GT Object Pose </th>
+    <th>  MLP with Image (DINOv3 feature)</th>
+    <th> smolVLA</th>
+    </tr>
+    <tr>
+    <th>  65%</th>
+    <th>  </th>
+    <th> </th>
+    </tr>
+</table>
 
 ## Others
 

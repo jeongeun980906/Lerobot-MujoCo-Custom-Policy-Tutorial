@@ -40,7 +40,7 @@ def parse_object_info(data):
 
 def create_dataset(ROOT, add_images = True):
     features = {
-        "state": {
+        "observation.state": {
                     "dtype": "float32",
                     "shape": (7,),
                     "names": ["state"],
@@ -52,37 +52,26 @@ def create_dataset(ROOT, add_images = True):
         }
     }
     if add_images:
-        features["image"] = {
+        features["observation.image"] = {
                 "dtype": "image",
                 "shape": (256, 256, 3),
                 "names": ["height", "width", "channels"],
         }
-        features["wrist_image"] = {
+        features["observation.wrist_image"] = {
                 "dtype": "image",
                 "shape": (256, 256, 3),
                 "names": ["height", "width", "channels"],
         }
     else:
-        features['obj_pose']= {
+        # object numbers : 4 x 6
+        # objects with q states: 3
+        # -> total 27 dimensions
+        features['observation.environment_state']= {
                     "dtype": "float32",
-                    "shape": (10, 6),
-                    "names": ["obj_pose"], # just the initial position of the object. Not used in training.
+                    "shape": (27,),
+                    "names": ["obj_pose"],
             }
-        features['obj_names'] = {
-            "dtype": "string",
-            "shape": (1,),
-            "names": ["obj_names"], # names of the objects
-        }
-        features['obj_q_names'] = {
-            "dtype": "string",
-            "shape": (1,),
-            "names": ["obj_q_names"], # names of the objects with q states
-        }
-        features['obj_q_states'] = {
-            "dtype": "float32",
-            "shape": (10,),
-            "names": ["obj_q_states"], # q states of the objects
-        }
+        
     dataset = LeRobotDataset.create(
             repo_id="transformed_data",
             root = ROOT,
@@ -124,7 +113,7 @@ def iterate_episodes(dataset,transformed_dataset, omy_env, ik_env,q_init, start_
         
             # # resize to 256x256
             frame = {
-                "state": observation,
+                "observation.state": observation,
                 "action": action.astype(np.float32),
             }
             if args.observation_type == 'image':
@@ -134,14 +123,31 @@ def iterate_episodes(dataset,transformed_dataset, omy_env, ik_env,q_init, start_
                 wrist_image = wrist_image.resize((256, 256))
                 agent_image = np.array(agent_image)
                 wrist_image = np.array(wrist_image)
-                frame["image"] = agent_image
-                frame["wrist_image"] = wrist_image
+                frame["observation.image"] = agent_image
+                frame["observation.wrist_image"] = wrist_image
             else:
                 obj_states, recp_q_poses = omy_env.get_object_pose(pad=10)
-                frame['obj_pose'] = np.array(obj_states['poses'],dtype=np.float32),
-                frame['obj_names'] = ','.join(obj_states['names'])
-                frame['obj_q_names'] = ','.join(recp_q_poses['names'])
-                frame['obj_q_states'] = np.array(recp_q_poses['q_states'],dtype=np.float32)
+                # extract position and rpy
+                # sort the object names in alphabetical order to maintain consistency
+                obj_states_sorted = np.zeros((24,), dtype=np.float32)
+                sorted_indices = np.argsort(obj_states['names'])
+                for i, idx in enumerate(sorted_indices):
+                    if 'pad' in obj_states['names'][idx]:
+                        continue
+                    obj_state = obj_states['poses'][idx]
+                    obj_states_sorted[i*6:(i+1)*6] = obj_state
+                # sort the receptacle q states in alphabetical order
+                recp_q_poses_sorted = np.zeros((3,), dtype=np.float32)
+                sorted_indices = np.argsort(recp_q_poses['names'])
+                i = 0
+                for _, idx in enumerate(sorted_indices):
+                    if 'pad' in recp_q_poses['names'][idx]:
+                        continue
+                    recp_q_pose = recp_q_poses['poses'][idx]
+                    recp_q_poses_sorted[i] = recp_q_pose
+                    i += 1
+                obj_states_final = np.concatenate([obj_states_sorted, recp_q_poses_sorted])
+                frame["observation.environment_state"] = obj_states_final
             transformed_dataset.add_frame(
                 frame, task=language_instruction
             )
