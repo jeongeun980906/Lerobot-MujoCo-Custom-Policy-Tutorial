@@ -106,7 +106,7 @@ if __name__ == "__main__":
     parser.add_argument('--backbone', type=str, default='mlp',)
     parser.add_argument('--n_hidden_layers', type=int, default=10,)
     parser.add_argument('--hidden_dim', type=int, default=512,)
-    parser.add_argument('--vision_backbone', type=str, default='facebook/dinov3-vitb16-pretrain-lvd1689m',choices=["facebook/dinov3-vitb16-pretrain-lvd1689m","facebook/dinov2-base"],)
+    parser.add_argument('--vision_backbone', type=str, default='facebook/dinov2-base',choices=["facebook/dinov3-vitb16-pretrain-lvd1689m","facebook/dinov2-base"],)
     parser.add_argument('--projection_dim', type=int, default=0,)
     parser.add_argument('--freeze_backbone', type=bool, default=True,)
     args = parser.parse_args()

@@ -1,6 +1,7 @@
 # KU-DEEP-LEARNING Term Project
 
-### This code is on-going
+Frequently asked questions will be described on [qa.md](qa.md). Please check qa file before posting the issue.
+
 
 ## Install
 ```
@@ -141,17 +142,18 @@ This file contains evaluation of the trained models.
 
 
 Action Representation: Target Joint Position, State Representation: Current Joint Position
+We do not added color agumented image from training vision models. 
 
-<table> Success rate
+<table> Success rate from Clean Image Env. -  Noisy Color Image Env.
     <tr>
-    <th>  MLP with GT Object Pose </th>
-    <th>  MLP with Image (DINOv3 feature)</th>
-    <th> SmolVLA with Image</th>
+    <th> <a href="https://huggingface.co/Jeongeun/mlp_obj_deep_learning_2025_joint">  MLP with GT Object Pose </th>
+    <th><a href="https://huggingface.co/Jeongeun/mlp_image_deep_learning_2025_joint">   MLP with Image (DINOv3 feature)</th>
+    <th> <a href="https://huggingface.co/Jeongeun/smolvla_deep_learning_2025_joint"> SmolVLA with Image </th>
     </tr>
     <tr>
     <th>  65%</th>
-    <th> 60% </th>
-    <th>65%</th>
+    <th> 50% - 40%</th>
+    <th>65% - 10% </th>
     </tr>
 </table>
 
@@ -211,3 +213,8 @@ Finally, on the third terminal, run
 python collect_data.py
 ```
 to collect the data!
+
+## Contact Information
+```
+Jeongeun Park: baro0906@korea.ac.kr
+```
