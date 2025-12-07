@@ -27,13 +27,10 @@ src
 
 The configuration file defines how the policy is trained and used, including:
 
-temporal structure (observation and action horizons),
-
-normalization strategy,
-
-architecture hyperparameters,
-
-optimizer and learning-rate scheduler presets.
+- temporal structure (observation and action horizons),
+- normalization strategy,
+- architecture hyperparameters,
+- optimizer and learning-rate scheduler presets.
 
 All policy configs must inherit from PreTrainedConfig and be registered so that LeRobot can automatically discover them.
 
