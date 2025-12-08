@@ -158,7 +158,7 @@ We do not added color agumented image from training vision models.
 </table>
 
 ## Try with your own policy
-Look at [src/policies/how_to.md](./src/policies/how_to.md) for instructions. 
+Look at [src/policies/README.md](./src/policies/README.md) for instructions. 
 
 
 For training change [3.train.ipynb](3.train.ipynb)
