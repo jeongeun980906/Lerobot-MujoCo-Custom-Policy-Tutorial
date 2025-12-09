@@ -17,7 +17,7 @@ SPACEBAR will change your gripper's state, and Z key will reset your environment
 
 ### 1.Visualize.ipynb
 
-It contains downloading dataset from huggingface and visualizing it.
+It contains downloading a dataset from huggingface and visualizing it.
 
 First, download the dataset
 ```
@@ -30,7 +30,7 @@ from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
 root = './dataset/demo_data'
 dataset = LeRobotDataset('Jeongeun/deep_learning_2025',root = root )
 ```
-Running this code will download the dataset independatly.
+Running this code will download the dataset independently.
 
 ### 2.transform.ipynb
 Define the action and observation space for the environment. 
@@ -45,8 +45,8 @@ transformed_dataset_path = './dataset/transformed_data'
 Based on this configuration, it will transform the actions into the action_type and create new dataset for training. 
 
 - action_type: representation of the actions. Options: 'joint','delta_joint','eef_pose','delta_eef_pose'
-- proprio_type: representations of propriocotative informations. Options: eef_pose, joint_pos
-- observation_type: whether to use image of a object position informations. Options: 'image','objet_pose'
+- proprio_type: representations of proprioceptive information. Options: eef_pose, joint_pos
+- observation_type: whether to use the image of an object's position information. Options: 'image','objet_pose.'
 - image_aug_num: the number of augmented trajectories to make when you are using image features
 
 You can just use the python script to do this as well. 
@@ -56,7 +56,7 @@ python transform.py --action_type delta_eef_pose --proprio_type eef_pose --obser
 ```
 
 ### 3.train.ipynb
-Train simple MLP models with dataset.
+Train simple MLP models with the dataset.
 
 First, set up the configurations
 ```python
@@ -133,7 +133,7 @@ python train.py
 
 ### 4.eval.ipynb
 
-This file contains evaluation of the trained models.
+This file contains an evaluation of the trained models.
 
 <img src="./media/baseline.gif" width="480" height="360" controls></img>
 
@@ -163,7 +163,7 @@ For training change [3.train.ipynb](3.train.ipynb)
 from src.policies.baseline.configuration import BaselineConfig
 from src.policies.baseline.modeling import BaselinePolicy
 ```
-to your own path in  in **first** cell and
+to your own path in  the **first** cell and
 
 ```python
 cfg = BaselineConfig(
@@ -179,14 +179,14 @@ Instantiate Policy
 '''
 policy = BaselinePolicy(**kwargs)
 ```
-Finally, change policy class in **fourth** cell.
+Finally, change policy class in the **fourth** cell.
 
 
-For evaluation [4.eval.ipynb](4.eval.ipynb) , change 
+For evaluation [4.eval.ipynb](4.eval.ipynb), change 
 ```python
 from src.policies.baseline.modeling import BaselinePolicy
 ```
-to your own path in **first** cell and
+to your own path in the **first** cell and
 ```python
 policy = BaselinePolicy.from_pretrained(CKPT, **kwargs)
 ```
@@ -195,8 +195,8 @@ change policy class in the **third** cell.
 
 ## Others
 
-### Data collection with leader arm
-First, launch the ros2 package from ROBOTIS to turn on the leader. This requires ROS2. 
+### Data collection with the leader arm
+First, launch the ROS2 package from ROBOTIS to turn on the leader. This requires ROS2. 
 ```
 ros2 launch open_manipulator_bringup hardware_y_leader.launch.py
 ```
